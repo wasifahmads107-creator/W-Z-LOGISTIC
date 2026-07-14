@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>W-Z LOGISTIC — Truck Driving Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Teko:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ TOP BAR: HERO + ENVIRONMENT + MAIN MENU ============ -->
+  <header class="topbar">
+
+    <!-- HERO / LOGO PANEL -->
+    <section class="hero" id="hero">
+      <div class="hero__scene">
+        <svg class="hero__bg" viewBox="0 0 640 340" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9fd0ec"/>
+              <stop offset="60%" stop-color="#cfe8f5"/>
+              <stop offset="100%" stop-color="#eaf5ee"/>
+            </linearGradient>
+            <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7f97a8"/>
+              <stop offset="100%" stop-color="#5b7080"/>
+            </linearGradient>
+            <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4c6373"/>
+              <stop offset="100%" stop-color="#374855"/>
+            </linearGradient>
+            <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4a4f57"/>
+              <stop offset="100%" stop-color="#2c2f35"/>
+            </linearGradient>
+          </defs>
+          <rect width="640" height="340" fill="url(#sky)"/>
+          <polygon points="0,190 90,90 150,160 220,70 300,190" fill="url(#mtn1)"/>
+          <polygon points="60,190 60,190 40,150 60,120 90,150 100,190" fill="#fff" opacity="0.85"/>
+          <polygon points="140,140 150,120 165,140" fill="#fff" opacity="0.85"/>
+          <polygon points="200,110 220,70 245,110" fill="#fff" opacity="0.9"/>
+          <polygon points="250,200 340,120 420,200" fill="url(#mtn2)"/>
+          <polygon points="320,140 340,120 362,140" fill="#fff" opacity="0.8"/>
+          <rect y="185" width="640" height="60" fill="#4d7a4a"/>
+          <path d="M0 245 Q160 200 320 245 T640 245 V340 H0 Z" fill="url(#road)"/>
+          <path d="M20 340 Q170 250 320 300 Q470 340 620 260" stroke="#f4d35e" stroke-width="4" stroke-dasharray="18 16" fill="none" opacity="0.8"/>
+        </svg>
+        <svg class="hero__truck" viewBox="0 0 300 160">
+          <rect x="10" y="70" width="140" height="55" rx="4" fill="#28577d"/>
+          <rect x="10" y="70" width="140" height="10" fill="#3a75a3"/>
+          <rect x="95" y="45" width="55" height="35" rx="6" fill="#3a75a3"/>
+          <rect x="102" y="52" width="40" height="18" rx="2" fill="#bfe3f5"/>
+          <circle cx="55" cy="128" r="20" fill="#1c1f24"/>
+          <circle cx="55" cy="128" r="9" fill="#8a939c"/>
+          <circle cx="128" cy="128" r="20" fill="#1c1f24"/>
+          <circle cx="128" cy="128" r="9" fill="#8a939c"/>
+          <rect x="150" y="35" width="140" height="90" rx="3" fill="#3d6ea5"/>
+          <rect x="150" y="35" width="140" height="90" rx="3" fill="none" stroke="#294f77" stroke-width="3"/>
+          <rect x="158" y="45" width="30" height="70" fill="#33608f" opacity="0.5"/>
+          <rect x="196" y="45" width="30" height="70" fill="#33608f" opacity="0.5"/>
+          <rect x="234" y="45" width="30" height="70" fill="#33608f" opacity="0.5"/>
+          <circle cx="200" cy="128" r="20" fill="#1c1f24"/>
+          <circle cx="200" cy="128" r="9" fill="#8a939c"/>
+          <circle cx="255" cy="128" r="20" fill="#1c1f24"/>
+          <circle cx="255" cy="128" r="9" fill="#8a939c"/>
+          <circle cx="98" cy="62" r="6" fill="#ffe89a"/>
+        </svg>
+      </div>
+      <div class="hero__title">
+        <h1><span>W-Z</span> LOGISTIC</h1>
+        <p class="hero__tag">TRUCK DRIVING SIMULATOR</p>
+        <ul class="hero__badges">
+          <li>◈ Offline Game</li>
+          <li>◈ Realistic Graphics</li>
+          <li>◈ Multiple Vehicles</li>
+          <li>◈ Different Controls</li>
+          <li>★ Amazing Levels</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ENVIRONMENT PICKER -->
+    <section class="panel env-panel">
+      <h2 class="panel__title">Choose Environment</h2>
+      <div class="env-grid" id="envGrid">
+        <button class="env-card active" data-env="highway" data-scheme="highway">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Highway</span>
+        </button>
+        <button class="env-card" data-env="mountain" data-scheme="mountain">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Mountain</span>
+        </button>
+        <button class="env-card" data-env="city" data-scheme="city">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">City</span>
+        </button>
+        <button class="env-card" data-env="village" data-scheme="village">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Village</span>
+        </button>
+        <button class="env-card" data-env="snow" data-scheme="snow">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Snow Fall</span>
+        </button>
+        <button class="env-card" data-env="rain" data-scheme="rain">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Rainy</span>
+        </button>
+        <button class="env-card" data-env="spring" data-scheme="spring">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Spring</span>
+        </button>
+        <button class="env-card" data-env="desert" data-scheme="desert">
+          <span class="env-card__art"></span>
+          <span class="env-card__label">Desert</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- MAIN MENU -->
+    <section class="panel menu-panel">
+      <div class="menu-panel__head">
+        <h2 class="panel__title">Main Menu</h2>
+        <div class="coins" id="coinDisplay">
+          <span class="coins__icon">●</span>
+          <span id="coinValue">25,000</span>
+          <button class="coins__add" id="addCoinsBtn" aria-label="Add coins">+</button>
+        </div>
+      </div>
+      <div class="menu-grid">
+        <button class="menu-btn" data-action="career">
+          <span class="menu-btn__icon">🏆</span>
+          <span>Career</span>
+        </button>
+        <button class="menu-btn" data-action="freedrive">
+          <span class="menu-btn__icon">🛞</span>
+          <span>Free Drive</span>
+        </button>
+        <button class="menu-btn" data-action="garage">
+          <span class="menu-btn__icon">🚧</span>
+          <span>Garage</span>
+        </button>
+        <button class="menu-btn" data-action="settings">
+          <span class="menu-btn__icon">⚙</span>
+          <span>Settings</span>
+        </button>
+        <button class="menu-btn" data-action="moregames">
+          <span class="menu-btn__icon">🎮</span>
+          <span>More Games</span>
+        </button>
+        <button class="menu-btn menu-btn--play" id="playBtn" data-action="play">
+          <span>PLAY</span>
+          <span class="menu-btn__arrow">▶</span>
+        </button>
+      </div>
+    </section>
+  </header>
+
+  <!-- ============ VEHICLE + CONTROL ROW ============ -->
+  <section class="midrow">
+
+    <div class="panel vehicle-panel">
+      <h2 class="panel__title">Choose Vehicle</h2>
+      <div class="vehicle-carousel">
+        <button class="carousel-arrow carousel-arrow--left" id="vehLeft" aria-label="Scroll left">‹</button>
+        <div class="vehicle-track" id="vehicleTrack">
+
+          <!-- 1. Military-style canvas truck -->
+          <button class="vehicle-card active" data-vehicle="military" data-color="#5b6b3f">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="4" y="30" width="58" height="20" rx="2" fill="#6d7d46"/>
+              <path d="M4 30 L10 14 L58 14 L62 30 Z" fill="#6d7d46"/>
+              <rect x="10" y="18" width="46" height="10" fill="#3f4a2c"/>
+              <rect x="60" y="24" width="6" height="26" fill="#454f30"/>
+              <rect x="66" y="20" width="50" height="30" rx="2" fill="#4a5730"/>
+              <path d="M66 20 L74 12 L108 12 L116 20 Z" fill="#4a5730"/>
+              <rect x="10" y="8" width="16" height="10" rx="2" fill="#2f3620"/>
+              <circle cx="8" cy="20" r="3" fill="#e9d18a"/>
+              <text x="72" y="40" font-family="Rajdhani,sans-serif" font-weight="700" font-size="9" fill="#e9edd8">W-Z</text>
+              <circle cx="26" cy="52" r="10" fill="#181a16"/><circle cx="26" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="52" cy="52" r="10" fill="#181a16"/><circle cx="52" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="90" cy="52" r="10" fill="#181a16"/><circle cx="90" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Military Truck</span>
+          </button>
+
+          <!-- 2. Mazda Titan dump truck -->
+          <button class="vehicle-card" data-vehicle="mazda" data-color="#e7e9ec">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="66" y="22" width="50" height="26" rx="3" fill="#c33b2f"/>
+              <path d="M66 22 L72 6 H108 L112 22 Z" fill="#dcdfe3"/>
+              <rect x="76" y="10" width="28" height="10" rx="1" fill="#7fb4d9"/>
+              <rect x="4" y="30" width="60" height="20" rx="2" fill="#dcdfe3"/>
+              <rect x="4" y="30" width="60" height="7" fill="#c4c8cd"/>
+              <circle cx="8" cy="24" r="3" fill="#ffe89a"/>
+              <text x="10" y="46" font-family="Rajdhani,sans-serif" font-weight="700" font-size="8" fill="#2b3138">W-Z</text>
+              <circle cx="24" cy="52" r="10" fill="#181a16"/><circle cx="24" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="90" cy="52" r="10" fill="#181a16"/><circle cx="90" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Mazda Titan</span>
+          </button>
+
+          <!-- 3. Jeep 4x4 off-roader -->
+          <button class="vehicle-card" data-vehicle="jeep" data-color="#4f6b3a">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="16" y="14" width="4" height="6" fill="#2b331d"/>
+              <rect x="16" y="8" width="60" height="4" fill="#2b331d"/>
+              <rect x="72" y="14" width="4" height="6" fill="#2b331d"/>
+              <path d="M14 48 L14 26 Q14 18 24 18 H70 Q80 18 82 26 L86 48 Z" fill="#5c7a44"/>
+              <rect x="24" y="22" width="18" height="12" fill="#c9dce8" opacity="0.8"/>
+              <rect x="46" y="22" width="18" height="12" fill="#c9dce8" opacity="0.8"/>
+              <rect x="6" y="34" width="10" height="10" rx="2" fill="#3d4d2b"/>
+              <circle cx="10" cy="26" r="3.4" fill="#ffe89a"/>
+              <text x="38" y="44" font-family="Rajdhani,sans-serif" font-weight="700" font-size="8" fill="#eef2e4">W-Z</text>
+              <circle cx="28" cy="52" r="10" fill="#181a16"/><circle cx="28" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="74" cy="52" r="10" fill="#181a16"/><circle cx="74" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Jeep 4x4</span>
+          </button>
+
+          <!-- 4. Container truck (red) -->
+          <button class="vehicle-card" data-vehicle="containerRed" data-color="#c0392b">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="6" y="20" width="66" height="30" rx="2" fill="#c0392b"/>
+              <text x="12" y="38" font-family="Rajdhani,sans-serif" font-weight="700" font-size="9" fill="#f3e3e0">LOGISTIC</text>
+              <rect x="74" y="24" width="40" height="26" rx="3" fill="#8f291f"/>
+              <path d="M74 24 L80 10 H104 L110 24 Z" fill="#a8332a"/>
+              <rect x="83" y="13" width="20" height="9" rx="1" fill="#7fb4d9"/>
+              <circle cx="78" cy="26" r="3" fill="#ffe89a"/>
+              <circle cx="26" cy="52" r="10" fill="#181a16"/><circle cx="26" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="58" cy="52" r="10" fill="#181a16"/><circle cx="58" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="96" cy="52" r="10" fill="#181a16"/><circle cx="96" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Container<br><small>Red</small></span>
+          </button>
+
+          <!-- 5. Sedan car -->
+          <button class="vehicle-card" data-vehicle="car" data-color="#c0392b">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <path d="M10 44 Q12 30 30 26 L40 18 Q46 14 56 14 L78 14 Q86 14 90 20 L98 28 Q112 30 114 44 Z" fill="#c0392b"/>
+              <path d="M44 20 L52 16 H74 L82 22 L78 28 H46 Z" fill="#8fc2e0" opacity="0.85"/>
+              <rect x="10" y="40" width="104" height="6" fill="#9c2c20"/>
+              <text x="40" y="42" font-family="Rajdhani,sans-serif" font-weight="700" font-size="8" fill="#f6e2df">W-Z LOGISTIC</text>
+              <circle cx="34" cy="52" r="9" fill="#181a16"/><circle cx="34" cy="52" r="4" fill="#8b8f7c"/>
+              <circle cx="92" cy="52" r="9" fill="#181a16"/><circle cx="92" cy="52" r="4" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Sedan Car</span>
+          </button>
+
+          <!-- 6. Fuel tanker -->
+          <button class="vehicle-card" data-vehicle="tanker" data-color="#e08a2c">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="4" y="26" width="46" height="22" rx="3" fill="#26292d"/>
+              <path d="M4 26 L10 12 H38 L44 26 Z" fill="#2f3338"/>
+              <rect x="12" y="15" width="22" height="9" rx="1" fill="#7fa8c2"/>
+              <rect x="46" y="20" width="70" height="26" rx="13" fill="#e08a2c"/>
+              <text x="54" y="37" font-family="Rajdhani,sans-serif" font-weight="700" font-size="9" fill="#2a1c08">W-Z LOGISTIC</text>
+              <circle cx="8" cy="22" r="3" fill="#ffe89a"/>
+              <circle cx="22" cy="52" r="10" fill="#181a16"/><circle cx="22" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="60" cy="52" r="10" fill="#181a16"/><circle cx="60" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="98" cy="52" r="10" fill="#181a16"/><circle cx="98" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Fuel Tanker</span>
+          </button>
+
+          <!-- 7. Container truck (yellow) -->
+          <button class="vehicle-card" data-vehicle="containerYellow" data-color="#f2c14e">
+            <svg class="vehicle-card__svg" viewBox="0 0 120 64">
+              <rect x="4" y="22" width="42" height="24" rx="3" fill="#e0ab2c"/>
+              <path d="M4 22 L10 8 H36 L42 22 Z" fill="#c99423"/>
+              <rect x="12" y="11" width="20" height="9" rx="1" fill="#7fa8c2"/>
+              <rect x="46" y="18" width="68" height="28" rx="2" fill="#f2c14e"/>
+              <text x="52" y="36" font-family="Rajdhani,sans-serif" font-weight="700" font-size="9" fill="#2a2408">W-Z LOGISTIC</text>
+              <circle cx="8" cy="18" r="3" fill="#fff3c9"/>
+              <circle cx="20" cy="52" r="10" fill="#181a16"/><circle cx="20" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="58" cy="52" r="10" fill="#181a16"/><circle cx="58" cy="52" r="4.5" fill="#8b8f7c"/>
+              <circle cx="96" cy="52" r="10" fill="#181a16"/><circle cx="96" cy="52" r="4.5" fill="#8b8f7c"/>
+            </svg>
+            <span class="vehicle-card__label">Container<br><small>Yellow</small></span>
+          </button>
+
+        </div>
+        <button class="carousel-arrow carousel-arrow--right" id="vehRight" aria-label="Scroll right">›</button>
+      </div>
+    </div>
+
+    <div class="panel control-panel">
+      <h2 class="panel__title">Control System</h2>
+      <div class="control-grid" id="controlGrid">
+        <button class="control-card" data-control="tilt">
+          <span class="control-card__icon">📱</span>
+          <span>Tilt</span>
+        </button>
+        <button class="control-card" data-control="button">
+          <span class="control-card__icon">🕹</span>
+          <span>Button</span>
+        </button>
+        <button class="control-card active" data-control="wheel">
+          <span class="control-card__icon">🚗</span>
+          <span>Steering Wheel</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREVIEW / GAMEPLAY STRIP ============ -->
+  <section class="panel preview-panel">
+    <h2 class="panel__title">Preview</h2>
+    <div class="preview-strip" id="previewStrip">
+      <div class="preview-card scheme-mountain active" data-preview="mountain">
+        <div class="preview-card__hud-top">
+          <span class="hud-btn">❚❚</span>
+          <span class="hud-compass">N</span>
+          <span class="hud-btn">📷</span>
+        </div>
+        <div class="preview-card__road"></div>
+        <div class="preview-card__hud-bottom">
+          <span class="hud-wheel">◎</span>
+          <span class="hud-speed">45 <small>KM/H</small></span>
+          <span class="hud-gear">▤</span>
+        </div>
+        <span class="preview-card__caption">Mountain Road</span>
+      </div>
+      <div class="preview-card scheme-snow" data-preview="snow">
+        <div class="preview-card__hud-top">
+          <span class="hud-btn">❚❚</span>
+          <span class="hud-compass">N</span>
+          <span class="hud-btn">📷</span>
+        </div>
+        <div class="preview-card__road"></div>
+        <div class="preview-card__hud-bottom">
+          <span class="hud-wheel">◎</span>
+          <span class="hud-speed">30 <small>KM/H</small></span>
+          <span class="hud-gear">▤</span>
+        </div>
+        <span class="preview-card__caption">Snow Road</span>
+      </div>
+      <div class="preview-card scheme-city" data-preview="city">
+        <div class="preview-card__hud-top">
+          <span class="hud-btn">❚❚</span>
+          <span class="hud-compass">N</span>
+          <span class="hud-btn">📷</span>
+        </div>
+        <div class="preview-card__road"></div>
+        <div class="preview-card__hud-bottom">
+          <span class="hud-wheel">◎</span>
+          <span class="hud-speed">50 <small>KM/H</small></span>
+          <span class="hud-gear">▤</span>
+        </div>
+        <span class="preview-card__caption">City Road</span>
+      </div>
+      <div class="preview-card scheme-spring" data-preview="spring">
+        <div class="preview-card__hud-top">
+          <span class="hud-btn">❚❚</span>
+          <span class="hud-compass">N</span>
+          <span class="hud-btn">📷</span>
+        </div>
+        <div class="preview-card__road"></div>
+        <div class="preview-card__hud-bottom">
+          <span class="hud-wheel">◎</span>
+          <span class="hud-speed">55 <small>KM/H</small></span>
+          <span class="hud-gear">▤</span>
+        </div>
+        <span class="preview-card__caption">Spring Season</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEVEL PATH ============ -->
+  <section class="panel levels-panel">
+    <h2 class="panel__title">Levels</h2>
+    <div class="levels-track" id="levelsTrack">
+      <!-- generated by JS -->
+    </div>
+  </section>
+
+  <!-- ============ FOOTER FEATURES ============ -->
+  <footer class="features">
+    <span>🛣 Multiple Roads</span>
+    <span>☀ Day &amp; Night Mode</span>
+    <span>🌧 Realistic Weather</span>
+    <span>🎮 Smooth Controls</span>
+    <span>HD Graphics</span>
+    <span>✈ 100% Offline</span>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
