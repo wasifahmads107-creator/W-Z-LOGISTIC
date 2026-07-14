@@ -324,11 +324,11 @@ button{
 .vehicle-track::-webkit-scrollbar-thumb{ background: var(--border); border-radius: 4px; }
 
 .vehicle-card{
-  flex: 0 0 108px;
+  flex: 0 0 140px;
   background: var(--card);
   border: 2px solid transparent;
   border-radius: var(--radius-sm);
-  padding: 10px 6px 8px;
+  padding: 8px 8px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -340,11 +340,23 @@ button{
   border-color: var(--amber);
   box-shadow: 0 0 0 3px rgba(245,182,66,0.15);
 }
-.vehicle-card__svg{
-  width: 88px;
-  height: 47px;
+.vehicle-card__photo{
+  width: 124px;
+  height: 82px;
+  border-radius: 8px;
+  overflow: hidden;
   display: block;
+  background: #0c1220;
 }
+.vehicle-card__photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  display: block;
+  transition: transform .2s ease;
+}
+.vehicle-card:hover .vehicle-card__photo img{ transform: scale(1.06); }
 .vehicle-card__label{
   font-family: 'Rajdhani', sans-serif;
   font-weight: 700;
