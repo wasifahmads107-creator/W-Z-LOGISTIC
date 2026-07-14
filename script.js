@@ -2,6 +2,10 @@
 // W-Z LOGISTIC — Truck Driving Simulator
 // Menu interactivity: environment / vehicle / control selection,
 // coin balance, level path generation, toast feedback.
+//
+// Card content now comes from the data files loaded before this
+// script: environments-data.js, vehicles-data.js, controls-data.js,
+// levels-data.js (see VEHICLES, ENVIRONMENTS, CONTROLS, LEVEL_GROUPS).
 // ============================================================
 
 (function () {
@@ -10,45 +14,10 @@
   /* ---------- STATE ---------- */
   const state = {
     coins: 25000,
-    environment: "highway",
-    vehicle: "truck",
-    control: "wheel",
+    environment: ENVIRONMENTS.find((e) => e.active)?.id || ENVIRONMENTS[0].id,
+    vehicle: VEHICLES.find((v) => v.active)?.id || VEHICLES[0].id,
+    control: CONTROLS.find((c) => c.active)?.id || CONTROLS[0].id,
   };
-
-  /* ---------- LEVEL DATA ----------
-     Each group mirrors a road/environment theme. `stars` is set for
-     completed levels; locked levels show a lock badge instead. */
-  const levelGroups = [
-    {
-      label: "Mountain Road",
-      levels: [
-        { num: 1, status: "current", stars: 3 },
-        { num: 2, status: "unlocked", stars: 3 },
-      ],
-    },
-    {
-      label: "Snow Road",
-      levels: [
-        { num: 3, status: "unlocked", stars: 3 },
-        { num: 4, status: "unlocked", stars: 3 },
-      ],
-    },
-    {
-      label: "City Road",
-      levels: [
-        { num: 5, status: "locked" },
-        { num: 6, status: "locked" },
-      ],
-    },
-    {
-      label: "Spring Season",
-      levels: [
-        { num: 7, status: "locked" },
-        { num: 9, status: "locked" },
-        { num: 10, status: "locked" },
-      ],
-    },
-  ];
 
   /* ---------- TOAST ---------- */
   let toastTimer = null;
@@ -61,8 +30,16 @@
   }
 
   /* ---------- ENVIRONMENT PICKER ---------- */
-  function initEnvironment() {
+  function buildEnvironments() {
     const grid = document.getElementById("envGrid");
+    grid.innerHTML = ENVIRONMENTS.map(
+      (env) => `
+      <button class="env-card${env.active ? " active" : ""}" data-env="${env.id}" data-scheme="${env.scheme}">
+        <span class="env-card__art"></span>
+        <span class="env-card__label">${env.label}</span>
+      </button>`
+    ).join("");
+
     grid.addEventListener("click", (e) => {
       const card = e.target.closest(".env-card");
       if (!card) return;
@@ -94,10 +71,20 @@
   }
 
   /* ---------- VEHICLE CAROUSEL ---------- */
-  function initVehicles() {
+  function buildVehicles() {
     const track = document.getElementById("vehicleTrack");
     const left = document.getElementById("vehLeft");
     const right = document.getElementById("vehRight");
+
+    track.innerHTML = VEHICLES.map(
+      (v) => `
+      <button class="vehicle-card${v.active ? " active" : ""}" data-vehicle="${v.id}">
+        <span class="vehicle-card__photo">
+          <img src="${v.img}" alt="${v.alt}" loading="lazy">
+        </span>
+        <span class="vehicle-card__label">${v.name}${v.sub ? `<br><small>${v.sub}</small>` : ""}</span>
+      </button>`
+    ).join("");
 
     track.addEventListener("click", (e) => {
       const card = e.target.closest(".vehicle-card");
@@ -113,8 +100,16 @@
   }
 
   /* ---------- CONTROL SYSTEM ---------- */
-  function initControls() {
+  function buildControls() {
     const grid = document.getElementById("controlGrid");
+    grid.innerHTML = CONTROLS.map(
+      (c) => `
+      <button class="control-card${c.active ? " active" : ""}" data-control="${c.id}">
+        <span class="control-card__icon">${c.icon}</span>
+        <span>${c.label}</span>
+      </button>`
+    ).join("");
+
     grid.addEventListener("click", (e) => {
       const card = e.target.closest(".control-card");
       if (!card) return;
@@ -141,7 +136,7 @@
     const track = document.getElementById("levelsTrack");
     track.innerHTML = "";
 
-    levelGroups.forEach((group, gi) => {
+    LEVEL_GROUPS.forEach((group, gi) => {
       const groupLabel = document.createElement("div");
       groupLabel.className = "level-group-label";
       groupLabel.textContent = group.label;
@@ -178,7 +173,7 @@
         track.appendChild(node);
 
         const isLastInGroup = li === group.levels.length - 1;
-        const isLastGroup = gi === levelGroups.length - 1;
+        const isLastGroup = gi === LEVEL_GROUPS.length - 1;
         if (!(isLastInGroup && isLastGroup)) {
           const connector = document.createElement("div");
           connector.className = "level-connector";
@@ -196,10 +191,10 @@
 
   /* ---------- INIT ---------- */
   document.addEventListener("DOMContentLoaded", () => {
-    initEnvironment();
+    buildEnvironments();
     initMenu();
-    initVehicles();
-    initControls();
+    buildVehicles();
+    buildControls();
     initPreview();
     buildLevels();
   });
